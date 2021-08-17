@@ -1,0 +1,8 @@
+GET http://localhost/card
+
+###
+
+POST http://localhost/add_card
+content-type: application/x-www-form-urlencoded
+
+card_uid=4F3ABE12
