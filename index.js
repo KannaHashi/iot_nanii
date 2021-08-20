@@ -2,7 +2,6 @@ const express = require('express')
 require('dotenv').config()
 const bodyParser = require('body-parser')
 const app = express()
-const User = require('./models/User')
 const mongoose = require('mongoose')
 
 // Routes
@@ -27,13 +26,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 app.set('json spaces', 2)
 
-// API EndPoint /card
-app.use('/card', card_route)
-app.use('/users', user_route)
-app.use('/items', item_route)
+app.use('/card', card_route)    // API EndPoint /card
+app.use('/users', user_route)   // API EndPoint /users
+app.use('/items', item_route)   // API EndPoint /items
 
 /*
-API Endpoint
 
 ---------------------------------------> RFID Card <--------------------------------------------------
 
