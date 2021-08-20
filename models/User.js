@@ -9,7 +9,23 @@ const User = new Schema({
     type: String,
     require: true
   },
+  full_name: {
+    type: String,
+    require: true
+  },
+  email: {
+    type: String,
+    require: true
+  },
+  phone_number: {
+    type: String,
+    require: true
+  },
   coins: {
+    type: Number,
+    default: 0
+  },
+  diamond: {
     type: Number,
     default: 0
   }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lolicons</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body style="height: 100vh" class="d-flex justify-content-center align-items-center">
+  <form class="border p-2"  action="/card/register_card" method="post">
+    <div class="form-floating m-1">
+      <input type="text" name="card_uid" id="card_uid" class="form-control" required disabled value=<%= form_data.card_uid %>>
+      <label for="card_uid">Card UID</label>
+    </div>
+    <div class="form-floating m-1">
+      <input type="text" name="user_name" id="user_name" required class="form-control" value=<%= form_data.user_name %>>
+      <label for="user_name">Username</label>
+    </div>
+    <div class="form-floating m-1">
+      <input type="text" name="full_name" id="full_name" required class="form-control" value=<%= form_data.full_name %>>
+      <label for="full_name">Full Name</label>
+    </div>
+    <div class="form-floating m-1">
+      <input type="email" name="email" id="email" required class="form-control" value=<%= form_data.email %>>
+      <label for="email">Email</label>
+    </div>
+    <div class="form-floating m-1">
+      <input type="number" name="phone_number" id="phone_number" required class="form-control" value=<%= form_data.phone_number %>>
+      <label for="phone_number">Phone Number</label>
+    </div>
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-block btn-outline-success">Register</button>
+    </div>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+</html>
