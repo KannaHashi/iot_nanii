@@ -1,0 +1,28 @@
+<%- include('./components/header') %>
+  <form class="border p-2"  action="/items/add_item" method="post">
+    <div class="form-floating m-1">
+      <input type="number" name="item_id" id="item_id" class="form-control" required disabled value=<%= item_id %>>
+      <label for="item_id">Item ID</label>
+    </div>
+    <div class="form-floating m-1">
+      <input type="text" name="item_name" id="item_name" required class="form-control">
+      <label for="item_name">Item Name</label>
+    </div>
+    <div class="form-floating m-1">
+      <textarea class="form-control" name="item_desc" id="item_desc" placeholder="The Item's Description"></textarea>
+      <label for="item_desc">Item Description</label>
+    </div>
+    <div class="form-floating m-1">
+      <input type="number" name="item_price" id="item_price" required class="form-control">
+      <label for="item_price">Item Price</label>
+    </div>
+    <div class="form-floating m-1">
+      <input type="number" name="item_quantity" id="item_quantity" required class="form-control">
+      <label for="item_quantity">Item Quantity</label>
+    </div>
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-block btn-outline-success">Register</button>
+    </div>
+  </form>
+
+<%- include('./components/footer') %>

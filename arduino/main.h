@@ -1,51 +1,22 @@
-/*
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-  # RFID MFRC522 / RC522 Library : https://github.com/miguelbalboa/rfid #
-  #                                                                     #
-  #                 Installation :                                      #
-  # NodeMCU ESP8266/ESP12E    RFID MFRC522 / RC522                      #
-  #         D2       <---------->   SDA/SS                              #
-  #         D5       <---------->   SCK                                 #
-  #         D7       <---------->   MOSI                                #
-  #         D6       <---------->   MISO                                #
-  #         GND      <---------->   GND                                 #
-  #         D1       <---------->   RST                                 #
-  #         3V/3V3   <---------->   3.3V                                #
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-  # Subscribe To The IoT Projects YouTube Channel : https://www.youtube.com/channel/UC49xSqiQ6gBrxUMQ9zvzO6A 🙂 🙂 🙂 #
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-*/
-
-//----------------------------------------Include the NodeMCU ESP8266 Library---------------------------------------------------------------------------------------------------------------//
-//----------------------------------------see here: https://teiotprojects.com/connect-rfid-to-php-mysql-database-with-nodemcu-esp8266/ to add NodeMCU ESP8266 library and board
 #include <ESP8266WebServer.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-//----------------------------------------Include the SPI and MFRC522 libraries-------------------------------------------------------------------------------------------------------------//
-//----------------------------------------Download the MFRC522 / RC522 library here: https://github.com/miguelbalboa/rfid
 #include <SPI.h>
 #include <MFRC522.h>
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 #define SS_PIN 4  //--> SDA / SS is connected to pinout D2
 #define RST_PIN 5  //--> RST is connected to pinout D1
 MFRC522 mfrc522(SS_PIN, RST_PIN);  //--> Create MFRC522 instance.
 
-//----------------------------------------SSID and Password of your WiFi router-------------------------------------------------------------------------------------------------------------//
-const char* ssid = "CotoMKS27";
-const char* password = "nekomimi";
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+const char* ssid = "RPL2019";
+const char* password = "metronix2019";
 
 int readsuccess;
 byte readcard[4];
 char str[32] = "";
 String StrUID;
 
-//-----------------------------------------------------------------------------------------------SETUP--------------------------------------------------------------------------------------//
 void setup() {
   Serial.begin(115200); //--> Initialize serial communications with the PC
   SPI.begin();      //--> Init SPI bus
@@ -59,18 +30,15 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH); //--> Turn off Led On Board
 
-  //----------------------------------------Wait for connection
   Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
-    //----------------------------------------Make the On Board Flashing LED on the process of connecting to the wifi router.
     digitalWrite(LED_BUILTIN, LOW);
     delay(250);
     digitalWrite(LED_BUILTIN, HIGH);
     delay(250);
   }
-  digitalWrite(LED_BUILTIN, HIGH); //--> Turn off the On Board LED when it is connected to the wifi router.
-  //----------------------------------------If successfully connected to the wifi router, the IP Address that will be visited is displayed in the serial monitor
+  digitalWrite(LED_BUILTIN, HIGH);
   Serial.println("");
   Serial.print("Successfully connected to : ");
   Serial.println(ssid);
@@ -80,9 +48,7 @@ void setup() {
   Serial.println("Please tag a card or keychain to see the UID !");
   Serial.println("");
 }
-//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-//-----------------------------------------------------------------------------------------------LOOP---------------------------------------------------------------------------------------//
 void loop() {
   // put your main code here, to run repeatedly
   readsuccess = getid();
@@ -97,9 +63,8 @@ void loop() {
 
     //Post Data
     postData = "card_uid=" + UIDresultSend;
-    // { "card_uid": cardUID }
 
-    http.begin(wifi, "http://192.168.43.239/add_card");  //Specify request destination
+    http.begin(wifi, "http://192.168.0.117/card/set_card_uid");  //Specify request destination
     http.addHeader("Content-Type", "application/x-www-form-urlencoded"); //Specify content-type header
 
     int httpCode = http.POST(postData);   //Send the request

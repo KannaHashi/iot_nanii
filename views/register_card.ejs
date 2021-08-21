@@ -1,0 +1,29 @@
+<%- include('./components/header') %>
+
+  <form class="border p-2"  action="/card/register_card" method="post">
+    <div class="form-floating m-1">
+      <input type="text" name="card_uid" id="card_uid" class="form-control" required disabled value=<%= form_data.card_uid %>>
+      <label for="card_uid">Card UID</label>
+    </div>
+    <div class="form-floating m-1">
+      <input type="text" name="user_name" id="user_name" required class="form-control" value=<%= form_data.user_name %>>
+      <label for="user_name">Username</label>
+    </div>
+    <div class="form-floating m-1">
+      <input type="text" name="full_name" id="full_name" required class="form-control" value=<%= form_data.full_name %>>
+      <label for="full_name">Full Name</label>
+    </div>
+    <div class="form-floating m-1">
+      <input type="email" name="email" id="email" required class="form-control" value=<%= form_data.email %>>
+      <label for="email">Email</label>
+    </div>
+    <div class="form-floating m-1">
+      <input type="number" name="phone_number" id="phone_number" required class="form-control" value=<%= form_data.phone_number %>>
+      <label for="phone_number">Phone Number</label>
+    </div>
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-block btn-outline-success">Register</button>
+    </div>
+  </form>
+
+  <%- include('./components/footer') %>

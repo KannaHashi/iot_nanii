@@ -1,75 +1,54 @@
 const express = require('express')
+require('dotenv').config()
 const bodyParser = require('body-parser')
 const app = express()
-const User = require('./models/User')
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb+srv://cotomks27:Chandra1250425@cluster0.dlu0f.mongodb.net/iot-shit?retryWrites=true&w=majority', {
+// Routes
+const item_route = require('./routes/item')
+const user_route = require('./routes/user')
+const card_route = require('./routes/card')
+
+// Database Connection
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useFindAndModify: true,
-  useUnifiedTopology: true
+  useFindAndModify: false,
+  useUnifiedTopology: true,
 }, () => {
   console.log('Dah konek, tempec!')
 })
 
+// Start http server
 const http = require('http').createServer(app)
 
-app.use(bodyParser.urlencoded({extended: true}))
+// ExpressJS Config
+app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
+app.set('json spaces', 2)
 
-let CardUID = ""
+app.use('/card', card_route)    // API EndPoint /card
+app.use('/users', user_route)   // API EndPoint /users
+app.use('/items', item_route)   // API EndPoint /items
 
-app.post('/add_card', (req,res) => {
-  CardUID = req.body.card_uid
-  console.log(req.body)
-  return res.status(200).json({message : "Success!", content_received: req.body.card_uid})
-})
+/*
 
-app.get('/card', (req,res) => {
-  console.log(CardUID)
-  return res.status(200).json({current_card: CardUID})
-})
+---------------------------------------> RFID Card <--------------------------------------------------
 
-app.get('/register_card', async(req,res) => {
-  const checkData = await User.findOne({card_uid: req.body.card_uid})
+GET http://localhost/card --> Cek kartu yang sedang aktif (yang sudah di-set di '/card/set_card_uid')
+GET http://localhost/card/register_card --> Dibuka di Browser, isi form untuk me-registrasi kartu
+POST http://localhost/card/set_card_uid --> Set kartu yang mau diregistrasi
+POST http://localhost/card/register_card --> Proses memasukkan data dari form registrasi ke database
 
-  let form_data = {
-    card_uid: CardUID,
-    user_name: "",
-    coins: 0
-  }
+---------------------------------------> Shop Items <-------------------------------------------------
 
-  if(checkData) {
-    form_data = {
-      card_uid: checkData.card_uid,
-      user_name: checkData.user_name,
-      coins: checkData.coins
-    }
-  }
-  res.render('register', {form_data})
-})
+GET http://localhost/items --> Cek semua item yang terdaftar di Database
+GET http://localhost/items/add_item --> Dibuka di Browser, isi form untuk menambahkan item baru ke Database
+POST http://localhost/items/add_item --> Proses memasukkan data dari form registrasi ke database
 
-app.post('/register', async(req,res) => {
-  await User.findOneAndUpdate({
-    card_uid: req.body.card_uid
-  }, {
-    card_uid: req.body.card_uid,
-    user_name: req.body.user_name,
-    coins: 0
-  }, {
-    new: true,
-    upsert: true
-  }).then(() => {
-    const data_sent = {
-      card_uid: req.body.card_uid,
-      user_name: req.body.user_name,
-      coins: 0
-    }
-    return res.status(200).json({message: "Success!", data_received: data_sent})
-  }).catch(e => {
-    console.error(e)
-  })
-})
+----------------------------------------> User List <-------------------------------------------------
+GET http://localhost/users --> Cek semua user yang terdaftar di Database
+
+*/
 
 http.listen(80, () => {
   console.log('Listening to port 80')
